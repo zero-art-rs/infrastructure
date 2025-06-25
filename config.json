@@ -1,0 +1,27 @@
+{
+  "client": {
+    "token": {
+      "hmac_secret_key": "tkE0hTS953BL3ETHeFyHGY3cAl78xyGCdPCtsGIX-oiyJ_Suz_ui_j3Gjrp8JP62Lq8tHCoih6rBMeUvfGPOvw"
+    },
+    "allowed_origins": [],
+    "allow_anonymous_connect_without_token": true
+  },
+  "admin": {
+    "enabled": false,
+    "password": "XVH2GkJC9tglYZ_9yftcUg",
+    "secret": "aGU7Qhus4bxItqKR8GQvwuXcv3UJpXm3v8w5I4zPPog3kB69Hdp9jtCyH_idcpKfI_C-zYsHtNvZY1aW55eoNw"
+  },
+  "http_api": {
+    "key": "3jhb72sFZKA_8OTtsymCtZrgQVnpWUd9un9azYWlLmd-b7w6P1RzfBEQypSwiWrffnkGbWsW7fPDxNTs0_cdlg"
+  },
+  "uni_sse": {
+    "enabled": true
+  },
+  "consumers": {
+    "nats_jetstream": {
+      "username": "admin",
+      "password": "admin",
+      "url": "nats://nats:4222"
+    }
+  }
+}

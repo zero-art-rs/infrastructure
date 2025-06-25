@@ -1,0 +1,58 @@
+services:
+  nats:
+    image: nats:latest
+    container_name: nats-server
+    ports:
+      - "4222:4222" # NATS client connections
+      - "6222:6222" # Cluster routes
+      - "8222:8222" # HTTP monitoring
+    command: [
+        "-js", # Enable JetStream
+        "-sd",
+        "/data", # Store directory
+        "-m",
+        "8222", # HTTP monitoring port
+      ]
+    volumes:
+      - nats_data:/data
+    networks:
+      - centrifugo-network
+    restart: unless-stopped
+
+  centrifugo:
+    image: centrifugo/centrifugo:v6.2.1
+    container_name: centrifugo-server
+    ports:
+      - "8000:8000" # Centrifugo HTTP/SSE
+    volumes:
+      - ./config.json:/centrifugo/config.json:ro
+    command:
+      ["centrifugo", "--config=/centrifugo/config.json", "--admin.enabled"]
+    depends_on:
+      - nats
+    networks:
+      - centrifugo-network
+    restart: unless-stopped
+    environment:
+      - CENTRIFUGO_LOG_LEVEL=info
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8000/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  nats_data:
+    driver: local
+
+networks:
+  centrifugo-network:
+    driver: bridge
