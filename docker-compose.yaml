@@ -35,22 +35,34 @@ services:
       - centrifugo-network
     restart: unless-stopped
     environment:
-      - RUST_LOG=info
+      - RUST_LOG=debug
+
+  zk-messenger-message-relay:
+    image: ghcr.io/zk-messenger/message-relay:v0.1.0
+    container_name: zk-messenger-message-relay
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./configs/relay.toml:/config.toml:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      nats-stream-init:
+        condition: service_completed_successfully
+    networks:
+      - centrifugo-network
+    restart: unless-stopped
+    environment:
+      - RUST_LOG=debug
 
   nats:
     image: nats:latest
     container_name: nats-server
     ports:
-      - "4222:4222" # NATS client connections
-      - "6222:6222" # Cluster routes
-      - "8222:8222" # HTTP monitoring
-    command: [
-        "-js", # Enable JetStream
-        "-sd",
-        "/data", # Store directory
-        "-m",
-        "8222", # HTTP monitoring port
-      ]
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    command: ["-js", "-sd", "/data", "-m", "8222"]
     volumes:
       - nats_data:/data
     networks:
@@ -82,7 +94,7 @@ services:
     image: centrifugo/centrifugo:v6.2.1
     container_name: centrifugo-server
     ports:
-      - "8000:8000" # Centrifugo HTTP/SSE
+      - "8000:8000"
     volumes:
       - ./configs/centrifugo.json:/centrifugo/config.json:ro
     command: centrifugo -c config.json

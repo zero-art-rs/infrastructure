@@ -1,0 +1,17 @@
+[logging]
+level = "debug"
+
+[storage]
+database_url = "mongodb://mongodb:27017/zkmsngr?replicaSet=rs0"
+database_name = "zkmsngr"
+outbox_table_name = "outbox"
+
+[centrifugo]
+amqp_url = "amqp://nats:5672"
+centrifugo_url = "http://centrifugo:8000"
+centrifugo_api_key = "1234567890"
+
+# [nats]
+# url = "nats://nats:4222"
+# stream_name = "zkmsngr"
+# consumer_name = "zkmsngr-relay"
