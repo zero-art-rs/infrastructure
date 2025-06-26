@@ -1,4 +1,42 @@
 services:
+  mongodb:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - 27017:27017
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+    volumes:
+      - "mongodb_data:/data/db"
+      - "mongodb_config:/data/configdb"
+    networks:
+      - centrifugo-network
+
+  zk-messenger-node:
+    image: ghcr.io/zk-messenger/zk-messenger-node:v0.1.0
+    container_name: zk-messenger-node
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./configs/node.toml:/config.toml:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      nats-stream-init:
+        condition: service_completed_successfully
+    networks:
+      - centrifugo-network
+    restart: unless-stopped
+    environment:
+      - RUST_LOG=info
+
   nats:
     image: nats:latest
     container_name: nats-server
@@ -46,7 +84,7 @@ services:
     ports:
       - "8000:8000" # Centrifugo HTTP/SSE
     volumes:
-      - ./centrifugo/config.json:/centrifugo/config.json:ro
+      - ./configs/centrifugo.json:/centrifugo/config.json:ro
     command: centrifugo -c config.json
     depends_on:
       nats-stream-init:
@@ -60,6 +98,8 @@ services:
 volumes:
   nats_data:
     driver: local
+  mongodb_config:
+  mongodb_data:
 
 networks:
   centrifugo-network:
