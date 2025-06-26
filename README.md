@@ -2,16 +2,6 @@
 
 A complete real-time messaging infrastructure built with **Centrifugo** and **NATS JetStream** for reliable, scalable messaging applications.
 
-## 🏗️ Architecture
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   NATS Server   │────│  Centrifugo      │────│   Client Apps   │
-│   + JetStream   │    │  Real-time Hub   │    │   (WebSocket,   │
-│                 │    │                  │    │    SSE, etc.)   │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```
-
 ### Components
 
 - **🚀 NATS JetStream**: Message streaming platform with persistence and exactly-once delivery
@@ -19,6 +9,7 @@ A complete real-time messaging infrastructure built with **Centrifugo** and **NA
 - **🔧 Auto-initialization**: Automatic NATS stream setup on startup
 - **🌐 Admin Interface**: Web-based monitoring and management
 - **⚙️ ZK Messenger Node**: Core application server (Rust-based)
+- **📨 Message Relay**: Outbox pattern implementation for reliable message publishing
 - **🗄️ MongoDB**: Database with replica set for change streams support
 
 ## 🚀 Quick Start
@@ -62,14 +53,15 @@ docker compose up -d
 
 Once services are running:
 
-| Service              | URL                                      | Purpose                |
-| -------------------- | ---------------------------------------- | ---------------------- |
-| **ZK Messenger API** | http://localhost:8080                    | Main application API   |
-| **Centrifugo Admin** | http://localhost:8000/admin              | Web admin interface    |
-| **Centrifugo API**   | http://localhost:8000/api                | HTTP API endpoint      |
-| **Centrifugo SSE**   | http://localhost:8000/connection/uni_sse | Server-Sent Events     |
-| **NATS Monitoring**  | http://localhost:8222                    | NATS server monitoring |
-| **MongoDB**          | mongodb://localhost:27017                | Database connection    |
+| Service              | URL                                      | Purpose                      |
+| -------------------- | ---------------------------------------- | ---------------------------- |
+| **ZK Messenger API** | http://localhost:8080                    | Main application API         |
+| **Message Relay**    | http://localhost:8081                    | Outbox message relay service |
+| **Centrifugo Admin** | http://localhost:8000/admin              | Web admin interface          |
+| **Centrifugo API**   | http://localhost:8000/api                | HTTP API endpoint            |
+| **Centrifugo SSE**   | http://localhost:8000/connection/uni_sse | Server-Sent Events           |
+| **NATS Monitoring**  | http://localhost:8222                    | NATS server monitoring       |
+| **MongoDB**          | mongodb://localhost:27017                | Database connection          |
 
 ## 🔧 Configuration
 
@@ -86,6 +78,13 @@ Once services are running:
 - **Consumer**: NATS JetStream integration enabled
 - **Authentication**: JWT-based with HMAC secret
 - **Transports**: WebSocket, SSE, HTTP API
+
+### Message Relay
+
+- **Pattern**: Outbox pattern for reliable message delivery
+- **Database**: MongoDB outbox table for transactional messaging
+- **Transport**: NATS integration with Centrifugo
+- **Reliability**: Ensures messages are delivered even if external services are temporarily unavailable
 
 ### Reset Everything
 
