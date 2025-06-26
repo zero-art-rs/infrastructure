@@ -19,35 +19,43 @@ services:
       - centrifugo-network
     restart: unless-stopped
 
+  nats-stream-init:
+    image: natsio/nats-box:latest
+    container_name: nats-stream-init
+    depends_on:
+      - nats
+    networks:
+      - centrifugo-network
+    command:
+      - sh
+      - -c
+      - |
+        echo 'Waiting for NATS to be ready...'
+        while ! nats server check connection --server=nats://nats:4222 2>/dev/null; do
+          echo 'NATS not ready, waiting...'
+          sleep 2
+        done
+        echo 'NATS is ready! Creating EVENTS stream...'
+        nats stream add EVENTS --subjects 'events.>' --storage file --retention limits --max-msgs=-1 --max-bytes=-1 --max-age='' --max-msg-size=-1 --dupe-window=2m --replicas=1 --server=nats://nats:4222 --defaults
+        echo 'EVENTS stream created successfully!'
+    restart: "no"
+
   centrifugo:
     image: centrifugo/centrifugo:v6.2.1
     container_name: centrifugo-server
     ports:
       - "8000:8000" # Centrifugo HTTP/SSE
     volumes:
-      - ./config.json:/centrifugo/config.json:ro
-    command:
-      ["centrifugo", "--config=/centrifugo/config.json", "--admin.enabled"]
+      - ./centrifugo/config.json:/centrifugo/config.json:ro
+    command: centrifugo -c config.json
     depends_on:
-      - nats
+      nats-stream-init:
+        condition: service_completed_successfully
     networks:
       - centrifugo-network
     restart: unless-stopped
     environment:
-      - CENTRIFUGO_LOG_LEVEL=info
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--quiet",
-          "--tries=1",
-          "--spider",
-          "http://localhost:8000/health",
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - CENTRIFUGO_LOG_LEVEL=debug
 
 volumes:
   nats_data:

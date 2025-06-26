@@ -1,4 +1,5 @@
 {
+  "log_level": "debug",
   "client": {
     "token": {
       "hmac_secret_key": "tkE0hTS953BL3ETHeFyHGY3cAl78xyGCdPCtsGIX-oiyJ_Suz_ui_j3Gjrp8JP62Lq8tHCoih6rBMeUvfGPOvw"
@@ -7,7 +8,7 @@
     "allow_anonymous_connect_without_token": true
   },
   "admin": {
-    "enabled": false,
+    "enabled": true,
     "password": "XVH2GkJC9tglYZ_9yftcUg",
     "secret": "aGU7Qhus4bxItqKR8GQvwuXcv3UJpXm3v8w5I4zPPog3kB69Hdp9jtCyH_idcpKfI_C-zYsHtNvZY1aW55eoNw"
   },
@@ -17,11 +18,26 @@
   "uni_sse": {
     "enabled": true
   },
-  "consumers": {
-    "nats_jetstream": {
-      "username": "admin",
-      "password": "admin",
-      "url": "nats://nats:4222"
+  "channel": {
+    "namespaces": [
+      {
+        "name": "personal"
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "enabled": true,
+      "name": "nats_events",
+      "type": "nats_jetstream",
+      "nats_jetstream": {
+        "url": "nats://nats:4222",
+        "stream_name": "EVENTS",
+        "subjects": ["events.>"],
+        "durable_consumer_name": "centrifugo_consumer",
+        "deliver_policy": "new",
+        "max_ack_pending": 100
+      }
     }
-  }
+  ]
 }
