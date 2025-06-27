@@ -7,7 +7,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}) }" | mongosh --port 27017 --quiet
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongodb:27017'}]}) }" | mongosh --port 27017 --quiet
       interval: 5s
       timeout: 30s
       start_period: 0s
@@ -20,7 +20,7 @@ services:
       - centrifugo-network
 
   zk-messenger-node:
-    image: ghcr.io/zk-messenger/zk-messenger-node:v0.1.0
+    image: ghcr.io/zk-messenger/zk-messenger-node:v0.1.1
     container_name: zk-messenger-node
     ports:
       - "8080:8080"
@@ -38,7 +38,7 @@ services:
       - RUST_LOG=debug
 
   zk-messenger-message-relay:
-    image: ghcr.io/zk-messenger/message-relay:v0.1.0
+    image: ghcr.io/zk-messenger/message-relay:v0.1.1
     container_name: zk-messenger-message-relay
     ports:
       - "8081:8081"

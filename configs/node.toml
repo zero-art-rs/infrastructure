@@ -1,5 +1,5 @@
-[jwt]
-secret = "very-very-secret-key"
+[centrifugo]
+hmac_secret = "tkE0hTS953BL3ETHeFyHGY3cAl78xyGCdPCtsGIX-oiyJ_Suz_ui_j3Gjrp8JP62Lq8tHCoih6rBMeUvfGPOvw"
 ttl = { secs = 86400, nanos = 0 }
 
 [api]
