@@ -22,7 +22,8 @@
         "name": "personal",
         "history_size": 300,
         "history_ttl": "600s",
-        "force_recovery": true
+        "force_recovery": true,
+        "presence": true
       },
       {
         "name": "art_events",
