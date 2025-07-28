@@ -5,10 +5,13 @@ level = "debug"
 database_url = "mongodb://mongodb:27017/zkmsngr?replicaSet=rs0"
 database_name = "zkmsngr"
 messages_outbox_collection_name = "messages_outbox"
-group_operations_outbox_collection_name = "group_operations_outbox"
+art_changes_outbox_collection_name = "art_changes_outbox"
 
 [nats]
 url = "nats://nats:4222"
+subject = "events.>"
+messages_namespace = "personal"
+art_changes_namespace = "art_events"
 
 # [nats]
 # url = "nats://nats:4222"
