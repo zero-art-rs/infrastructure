@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Stop Centrifugo and NATS services
-echo "🛑 Stopping Centrifugo and NATS services..."
+# Stop all the services
+echo "🛑 Stopping all the services..."
 
 # Parse command line arguments
 DROP_VOLUMES=false

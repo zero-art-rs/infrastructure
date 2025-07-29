@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting Centrifugo and NATS services..."
+echo "🚀 Starting all the services..."
 
 docker compose down
 
@@ -19,10 +19,8 @@ echo ""
 echo "✅ Services started!"
 echo ""
 echo "🌐 Access points:"
-echo "   • Centrifugo Admin: http://localhost:8000/admin"
-echo "   • Centrifugo API:   http://localhost:8000/api"
-echo "   • Centrifugo SSE:   http://localhost:8000/connection/uni_sse"
-echo "   • NATS Monitoring:  http://localhost:8222"
+echo "   • Node: http://localhost:8080"
+echo "   • Centrifugo: http://localhost:8000"
 echo ""
 echo "📋 Useful commands:"
 echo "   • View logs:        docker-compose logs -f"
