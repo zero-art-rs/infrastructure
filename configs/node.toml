@@ -8,3 +8,7 @@ address = "0.0.0.0:8080"
 [storage]
 database_url = "mongodb://mongodb:27017/zkmsngr?replicaSet=rs0"
 database_name = "zkmsngr"
+
+[nats]
+messages_namespace = "personal"
+art_changes_namespace = "art_events"
