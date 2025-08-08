@@ -20,7 +20,8 @@ services:
       - centrifugo-network
 
   zk-messenger-node:
-    image: ghcr.io/zk-messenger/zk-messenger-node:v0.1.3
+    image: ghcr.io/zk-messenger/zk-messenger-node:v0.1.4
+    platform: linux/amd64
     container_name: zk-messenger-node
     ports:
       - "8080:8080"
@@ -38,7 +39,8 @@ services:
       - RUST_LOG=debug
 
   zk-messenger-message-relay:
-    image: ghcr.io/zk-messenger/message-relay:v0.1.1
+    image: ghcr.io/zk-messenger/message-relay:v0.1.2
+    platform: linux/amd64
     container_name: zk-messenger-message-relay
     ports:
       - "8081:8081"
