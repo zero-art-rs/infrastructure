@@ -1,0 +1,9 @@
+log:
+  level: debug
+  disable_sentry: true
+
+db:
+  url: postgresql://transistor:transistor@transistor-db:5432/transistor?sslmode=disable
+
+listener:
+  addr: :8000

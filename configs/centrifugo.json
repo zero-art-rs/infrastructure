@@ -24,12 +24,6 @@
         "history_ttl": "600s",
         "force_recovery": true,
         "presence": true
-      },
-      {
-        "name": "art_events",
-        "history_size": 300,
-        "history_ttl": "600s",
-        "force_recovery": true
       }
     ]
   },
