@@ -20,7 +20,7 @@ services:
       - centrifugo-network
 
   node:
-    image: ghcr.io/zero-art-rs/node:v0.1.9-20
+    image: ghcr.io/zero-art-rs/node:v0.1.11
     platform: linux/amd64
     ports:
       - "8080:8080"
