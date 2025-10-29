@@ -38,7 +38,7 @@ services:
       - RUST_LOG=debug
 
   message-relay:
-    image: ghcr.io/zero-art-rs/message-relay:v0.1.4-3
+    image: ghcr.io/zero-art-rs/message-relay:v0.1.5
     platform: linux/amd64
     ports:
       - "8081:8081"
