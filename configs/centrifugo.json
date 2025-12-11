@@ -41,5 +41,8 @@
         "max_ack_pending": 100
       }
     }
-  ]
+  ],
+  "health": { 
+    "enabled": true
+  }
 }

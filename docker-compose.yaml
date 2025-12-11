@@ -20,7 +20,7 @@ services:
       - centrifugo-network
 
   node:
-    image: ghcr.io/zero-art-rs/node:v0.1.11
+    image: ghcr.io/zero-art-rs/node:v0.2.11
     platform: linux/amd64
     ports:
       - "8080:8080"
@@ -38,7 +38,7 @@ services:
       - RUST_LOG=debug
 
   message-relay:
-    image: ghcr.io/zero-art-rs/message-relay:v0.1.5
+    image: ghcr.io/zero-art-rs/message-relay:ed93b9567a54b42496307399dadfd577402a2dc1
     platform: linux/amd64
     ports:
       - "8081:8081"
@@ -129,6 +129,14 @@ services:
     volumes:
       - transistor-data:/pgdata
 
+  monitor:
+    image: ghcr.io/zero-art-rs/backend-monitor:75c1cadaa7361cea12ce5dd48ee4fb7b9f7d1351
+    ports: 
+      - "8090:8090"
+    networks:
+      - centrifugo-network
+    volumes:
+      - ./configs/monitor.toml:/config.toml:ro
 
 volumes:
   nats_data:
@@ -136,6 +144,7 @@ volumes:
   mongodb_config:
   mongodb_data:
   transistor-data:
+
 
 networks:
   centrifugo-network:

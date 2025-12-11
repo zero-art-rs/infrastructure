@@ -62,6 +62,7 @@ Once services are running:
 | **Centrifugo SSE**   | http://localhost:8000/connection/uni_sse | Server-Sent Events           |
 | **NATS Monitoring**  | http://localhost:8222                    | NATS server monitoring       |
 | **MongoDB**          | mongodb://localhost:27017                | Database connection          |
+| **Monitor**          | http://localhost:8090                    | Infrastructure healthchecker |
 
 ## 🔧 Configuration
 
