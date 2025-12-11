@@ -4,7 +4,7 @@ ttl = { secs = 86400, nanos = 0 }
 
 [api]
 address = "0.0.0.0:8080"
-merge_changes = false
+merge_changes = true
 
 [storage]
 database_url = "mongodb://mongodb:27017/zkartgroup?replicaSet=rs0"

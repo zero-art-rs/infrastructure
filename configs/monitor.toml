@@ -1,0 +1,12 @@
+[logger]
+level = "debug"
+
+[api]
+address = "0.0.0.0:8090"
+
+node_health_endpoint = "http://node:8080/health"
+relay_health_endpoint = "http://message-relay:8081/health"
+storage_health_endpoint = "mongodb://mongodb:27017/zkartgroup?replicaSet=rs0&directConnection=true"
+database_name = "zkartgroup"
+nats_health_endpoint = "http://nats:8222/healthz"
+centrifugo_health_endpoint = "http://centrifugo:8000/health"

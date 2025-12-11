@@ -10,3 +10,6 @@ messages_outbox_collection_name = "messages_outbox"
 url = "nats://nats:4222"
 subject = "events.>"
 messages_namespace = "personal"
+
+[api]
+address = "0.0.0.0:8081"
